@@ -13,7 +13,7 @@ def todict(line):
     t = allstr_to_epoch(vals[0])
     return {'t': t, 'ts': vals[0], 'bm':vals[1].split(".")[0]+vals[3], 'oc': vals[8], 'rp': int(vals[4])}
 
-def read_decodes(fp):
+def get_decodes(fp):
     decodes =[]
     for l in open(fp):
         d = todict(l)
@@ -37,21 +37,9 @@ def get_sessions(decodes):
         sess.append((decodes[idx1]['t'], decodes[idx2]['t'], decodes[idx1]['ts'], decodes[idx2]['ts'], idx1, idx2))
     return sess
 
-def load_allfile(fp):
-    decodes = read_decodes(fp)
+def read_allfile(fp):
+    decodes = get_decodes(fp)
     sessions = get_sessions(decodes)
     return decodes, sessions
 
-allA = r"C:\Users\drala\AppData\Local\WSJT-X\all.txt"
-allB = r"C:\Users\drala\AppData\Local\WSJT-X - AltAB\all.txt"
 
-decA, sessA = load_allfile(allA)
-decB, sessB = load_allfile(allB)
-
-
-print(f"Sessions in {allA}")
-for t0,t1, ts0,ts1, i0,i1 in sessA:
-    print(f"{ts0} to {ts1}")
-print(f"Sessions in {allB}")
-for t0,t1, ts0,ts1, i0,i1 in sessB:
-    print(f"{ts0} to {ts1}")
