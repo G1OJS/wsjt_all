@@ -27,6 +27,7 @@ def get_decodes(fp):
     return(decodes)
 
 def get_single_file_sessions(decodes):
+    # is this picking up the very last session?
     tg = 5*60
     t0=0
     bm0 = ""
