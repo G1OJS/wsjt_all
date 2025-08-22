@@ -21,25 +21,53 @@ def get_decodes(fp):
             decodes.append(d)
     return(decodes)
 
-def get_sessions(decodes):
+def get_single_file_sessions(decodes):
     tg = 5*60
     t0=0
     s_idx = []
     for idx, d in enumerate(decodes):
-        t1 = d['t']
+        t1 = int(d['t'])
         if(t1-t0 > tg):
             s_idx.append(idx)
         t0=t1
     s_idx.append(len(decodes)-1)
     sess = []
-    for i, idx1 in enumerate(s_idx[0:-2]):
-        idx2 = s_idx[i+1]
-        sess.append((decodes[idx1]['t'], decodes[idx2]['t'], decodes[idx1]['ts'], decodes[idx2]['ts'], idx1, idx2))
+    for i, idxs in enumerate(s_idx[0:-2]):
+        idxe = s_idx[i+1]
+        sess.append((decodes[idxs]['t'], decodes[idxe]['t']))
     return sess
 
 def read_allfile(fp):
     decodes = get_decodes(fp)
-    sessions = get_sessions(decodes)
+    sessions = get_single_file_sessions(decodes)
     return decodes, sessions
 
+def get_overlapping_sessions(a,b):
+    ranges = []
+    i = j = 0
+    while i < len(a) and j < len(b):
+        a_left, a_right = a[i]
+        b_left, b_right = b[j]
 
+        if a_right < b_right:
+            i += 1
+        else:
+            j += 1
+
+        if a_right >= b_left and b_right >= a_left:
+            end_pts = sorted([a_left, a_right, b_left, b_right])
+            middle = [end_pts[1], end_pts[2]]
+            ranges.append(middle)
+
+    ri = 0
+    while ri < len(ranges)-1:
+        if ranges[ri][1] == ranges[ri+1][0]:
+            ranges[ri:ri+2] = [[ranges[ri][0], ranges[ri+1][1]]]
+
+        ri += 1
+
+    return ranges
+
+
+
+           

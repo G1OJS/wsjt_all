@@ -1,0 +1,12 @@
+
+# Packaging
+*.egg-info/
+dist/
+build/
+test/
+
+# Python
+__pycache__/
+*.pyc
+
+
