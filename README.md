@@ -16,7 +16,7 @@ After you run the program, you will find a 'plots' folder in which you will find
 
 The markers represent each signal report (SNR in dB) plotting one all file against the other. Reports falling on the dashed black line are equal in SNR between the two receivers. Reports from a given remote callsign are shown as a collection by coloring then a specific colour per callsign, and by joining the markers with lines. Of course, there are typically far more callsigns than colours available, so colours are re-used across different callsigns. 
 
-The picture above shows an example of reception at G1OJS (20m FT8 late summer evening) - on the X axis, with the Y axis derived from audio from the web SDR at Hack Green in England. Clearly, Hack Green is doing better than me for many callsigns, but the reverse is true for some specific ones (different shades of green on the right). Future development may reveal *why* ! Note also that Hack Greein in this case is receiving a few hundred calsigns that I don't hear *at all* - but for the ones we both hear, the SNRs are comparable.
+The picture above shows an example of reception at G1OJS (20m FT8 late summer evening) - on the X axis, with the Y axis derived from audio from the web SDR at Hack Green in England. Clearly, Hack Green is doing better than me for many callsigns, but the reverse is true for some specific ones (different shades of green on the right). Future development may reveal *why* ! Note also that Hack Greein in this case is receiving a few hundred calsigns that I don't hear *at all* - see 'B only' in the figure title - but for the ones we both hear, the SNRs are comparable.
 
 
 ## Installation
