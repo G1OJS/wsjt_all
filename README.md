@@ -1,4 +1,4 @@
-# wsjt-all
+# wsjt_all
 **A Python command-line tool to analyse WSJT-X 'all.txt' files**
 ## Purpose
 The point of this tool is to make analysing the WSJT-X 'all.txt' files easy, avoiding having to open them with text editors, and providing various plots and statistical summaries.
