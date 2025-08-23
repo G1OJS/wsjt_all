@@ -109,19 +109,20 @@ def plot_live(allA, allB, plot_window_seconds):
     fig,ax = plt.subplots()
     plt.ion()
     while(True):
+        session_guard_seconds = 0
         decA, sA = read_allfile(allA, session_guard_seconds)
         decB, sB = read_allfile(allB, session_guard_seconds)
-        if(sA(2) != sB(2)):
-            print(f"Band/modes don't match ({sA} vs {sB})")
+        if(sA[-1][2] != sB[-1][2]):
+            print(f"Band/modes don't match ({sA[-1][2]} vs {sB[-1][2]})")
         tmax = max(sA[-1][1], sB[-1][1])
         tmax = time.time()
         tmin = tmax - plot_window_seconds
         ax.cla()
-        session_info = get_session_info_string(sA)
-        calls_info = plot_session(ax, decA, decB, int(tmin), int(tmax), sA(2))
+        session_info = get_session_info_string(sA[-1])
+        calls_info = plot_session(ax, decA, decB, int(tmin), int(tmax), sB[-1][2])
         fig.suptitle(f"{session_info}\n{calls_info}") 
         plt.tight_layout()
-        plt.pause(1)
+        plt.pause(5)
 
 
 

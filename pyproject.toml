@@ -1,6 +1,6 @@
 [project]
 name = "wsjt_all"
-version = "0.1.0"
+version = "0.14.0"
 license = "MIT"
 
 authors = [
@@ -26,8 +26,8 @@ Homepage = "https://github.com/G1OJS/wsjt_all"
 Issues = "https://github.com/G1OJS/wsjt_all/issues"
 
 [project.scripts]
-wsjt_all_AB = "wsjt_all:wsjt_all_AB"
-wsjt_all_AB_live = "wsjt_all:wsjt_all_AB_live"
+wsjt_all_ab = "wsjt_all:wsjt_all_ab"
+wsjt_all_ab_live = "wsjt_all:wsjt_all_ab"
 
 [tool.setuptools]
 license-files = ["LICENSE"]
