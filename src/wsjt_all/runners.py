@@ -22,8 +22,6 @@ def check_config():
         return False
     else:
         return True     
-        
-       
 
 def wsjt_all_ab():
     if(check_config()):
@@ -32,7 +30,8 @@ def wsjt_all_ab():
         allA = config.get("inputs","allA")
         allB = config.get("inputs","allB")
         session_guard_seconds = int(config.get("settings","session_guard_seconds"))
-        plot_all_historic(allA, allB, session_guard_seconds)
+        dump_data_with_plots = config.get("settings","dump_data_with_plots")
+        plot_all_historic(allA, allB, session_guard_seconds, dump_data_with_plots)
 
 
 def wsjt_all_ab_live():

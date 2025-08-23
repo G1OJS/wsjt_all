@@ -50,7 +50,6 @@ def read_allfile(fp, session_split_guard_secs):
     sessions = get_single_file_sessions(decodes, session_split_guard_secs)
     return decodes, sessions
 
-
 def debug_print_overlap(a_left, a_right, b_left, b_right, ab_left, ab_right):
     def hm(ts):
         return datetime.datetime.fromtimestamp(ts).strftime('%H%M')
@@ -76,9 +75,6 @@ def get_overlapping_sessions(a,b, min_session_secs = 60):
         if(b_left>=a_left and b_left < a_right - min_session_secs and a_bm == b_bm):
             ranges.append([b_left, min(a_right, b_right), a_bm])
             #debug_print_overlap(a_left, a_right, b_left, b_right, ranges[-1][0], ranges[-1][1])
-
-
-        
  
     return ranges
 

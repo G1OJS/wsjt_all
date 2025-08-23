@@ -10,62 +10,66 @@ def time_window_decodes(decodes, tmin, tmax):
             decs.append(d)
     return decs
 
-def plot_session(ax, decA, decB, ts, te, bm):
-    ax.axline((0, 0), slope=1, color="black", linestyle=(0, (5, 5)))
 
-    # need to move this so it doesn't initialise each plot - global or __init__ if making a class
-    from random import randint
-    colorseries = []
-    ncolors = 20
-    for i in range(ncolors):
-        colorseries.append('#%06X' % randint(0, 0xFFFFFF))
-
+def get_session_data(decA, decB, ts, te):
     calls_a = set()
     calls_b = set()
-    bandModes = set()
     dA, dB = [], []
     for d in decA:
         if(d['t']>=ts and d['t']<=te):
             calls_a.add(d['oc'])
-            bandModes.add(d['bm'])
             dA.append(d)
     a_info=f"{len(calls_a)} calls in A"
     print(a_info)
     for d in decB:
         if(d['t']>=ts and d['t']<=te):
             calls_b.add(d['oc'])
-            bandModes.add(d['bm'])
             dB.append(d)
     b_info=f"{len(calls_b)} calls in B"
     print(b_info)
-    calls = calls_a.intersection(calls_b)
-    ab_info=f"{len(calls)} calls in both A and B"
+    calls_ab = calls_a.intersection(calls_b)
+    ab_info=f"{len(calls_ab)} calls in both A and B"
     print(ab_info)
 
+    return calls_a, calls_b, calls_ab, dA, dB
+
+
+def plot_session_snrs(ax, calls, dA, dB):
+
+    ax.axline((0, 0), slope=1, color="black", linestyle=(0, (5, 5)))
+
+    # need to move this so it doesn't initialise when starting each plot - global or __init__ if making a class
+    from random import randint
+    colorseries = []
+    ncolors = 20
+    for i in range(ncolors):
+        colorseries.append('#%06X' % randint(0, 0xFFFFFF))
+
+    call_counts_a = [0] * len(calls)
+    call_counts_b = [0] * len(calls)
     for i, c in enumerate(calls):
         series_x = []
         series_y = []
         colors=[]
         for da in dA:
             if(da['oc']==c):
+                call_counts_a[i] += 1                       # simple count of reports over time window, all A
                 for db in dB:
-                    if(db['oc'] == c and abs(da['t'] - db['t']) <30): # coincident reports same callsign
-                        series_x.append(da['rp'])
-                        series_y.append(db['rp'])
+                    if(db['oc'] == c):
+                        call_counts_b[i] += 1               # simple count of reports over time window, all B
+                        if (abs(da['t'] - db['t']) <30):    # coincident reports of same callsign: append SNRs for plot
+                            series_x.append(da['rp'])
+                            series_y.append(db['rp'])
         
         ax.plot(series_x, series_y, c = colorseries[i % ncolors] , marker ="o")
     axrng = (min(ax.get_xlim()[0], ax.get_ylim()[0]), max(ax.get_xlim()[1], ax.get_ylim()[1]))
     ax.set_xlim(axrng)
     ax.set_ylim(axrng)
-    info = f"Callsigns found: A only, {len(calls_a)-len(calls)}; A&B, {len(calls)}; B only, {len(calls_b)}"
     ax.set_title("SNRs for callsigns in both A and B")
-    ax.set_xlabel("SNR in all A")
-    ax.set_ylabel("SNR in all B")
+    ax.set_xlabel("SNR in all.txt A")
+    ax.set_ylabel("SNR in all.txt B")
 
-    return info
-
-
-def plot_all_historic(allA, allB, session_guard_seconds):
+def plot_all_historic(allA, allB, session_guard_seconds, dump_data_with_plots):
     print(f"Reading All A: from {allA}")
     print("Sessions found:")
     alldecA, sA = read_allfile(allA, session_guard_seconds)
@@ -90,11 +94,15 @@ def plot_all_historic(allA, allB, session_guard_seconds):
 
     print("Plotting sessions:")
     for i, c in enumerate(coinc):
-        session_info = get_session_info_string(c)
         ts, te, bm = c
-        print(f"\nPlotting session {i+1} of {len(coinc)} {session_info}")
         fig,ax = plt.subplots()
-        calls_info = plot_session(ax, decA, decB, int(ts), int(te), bm)
+
+        session_info = get_session_info_string(c)        
+        calls_a, calls_b, calls_ab, dA, dB = get_session_data(decA, decB, int(ts), int(te))
+        plot_session_snrs(ax, calls_ab, dA, dB)
+        calls_info = f"Callsigns found: A only, {len(calls_a)-len(calls_ab)}; A&B, {len(calls_ab)}; B only, {len(calls_b)-len(calls_ab)}"
+
+        print(f"\nPlotting session {i+1} of {len(coinc)} {session_info}")
         fig.suptitle(f"{session_info}\n{calls_info}") 
         plt.tight_layout()
         if not os.path.exists("plots"):
@@ -118,8 +126,12 @@ def plot_live(allA, allB, plot_window_seconds):
         tmax = time.time()
         tmin = tmax - plot_window_seconds
         ax.cla()
+        
         session_info = get_session_info_string(sA[-1])
-        calls_info = plot_session(ax, decA, decB, int(tmin), int(tmax), sB[-1][2])
+        calls_a, calls_b, calls_ab, dA, dB = get_session_data(decA, decB, int(tmin), int(tmax))
+        plot_session_snrs(ax, calls_ab, dA, dB)
+        calls_info = f"Callsigns found: A only, {len(calls_a)-len(calls_ab)}; A&B, {len(calls_ab)}; B only, {len(calls_b)-len(calls_ab)}"
+        
         fig.suptitle(f"{session_info}\n{calls_info}") 
         plt.tight_layout()
         plt.pause(5)
