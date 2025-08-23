@@ -9,6 +9,13 @@ My own pesonal motivation here is to compare my reception performance, in a fair
 
 I will probably develop this next to produce plots from *single* ALL.txt files, and produce more / different plots etc.
 
+The questions I had in my mind, that I wrote this to try to answer, include:
+ - At the basic level, how does my receive performance (All file A) compare to that of a 'good reference' (All file B): number of callsigns collected at each, comparison of SNR when both A and B receive the same callsign either simultaneously or within a specified time window.
+ - How does that comparison change over time? Are signals fading in at A and out at B & vice versa? Is this true only for some callsigns and are the rest static or going the other way?
+ - How variable is SNR at A, and at B?
+ - What does SNR correlate with at A and B, if anything? (e.g. distance, bearing)
+ - What's more meaningful, SNR or number of times a callsign is received over a time window?
+
 ## Outputs
 After you run the program, you will find a 'plots' folder in which you will find plots like this:
 
