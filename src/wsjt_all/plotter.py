@@ -1,7 +1,18 @@
-
+import datetime
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import random
 import os
-from .readall import read_allfile, get_overlapping_sessions, get_session_info_string
+from .readall import read_allfile, get_overlapping_sessions
+global colorseries
+
+def init_colours():
+    global colorseries
+    from random import randint
+    colorseries = []
+    ncolors = 20
+    for i in range(ncolors):
+        colorseries.append('#%06X' % randint(0x333333, 0xFFFFFF))
 
 def time_window_decodes(decodes, tmin, tmax):
     decs = []
@@ -9,7 +20,6 @@ def time_window_decodes(decodes, tmin, tmax):
         if (d['t']>= tmin and d['t']<= tmax):
             decs.append(d)
     return decs
-
 
 def get_session_data(decA, decB, ts, te):
     calls_a = set()
@@ -19,49 +29,54 @@ def get_session_data(decA, decB, ts, te):
         if(d['t']>=ts and d['t']<=te):
             calls_a.add(d['oc'])
             dA.append(d)
-    a_info=f"{len(calls_a)} calls in A"
-    print(a_info)
+    print(f"{len(calls_a)} calls in A")
     for d in decB:
         if(d['t']>=ts and d['t']<=te):
             calls_b.add(d['oc'])
             dB.append(d)
-    b_info=f"{len(calls_b)} calls in B"
-    print(b_info)
+    print(f"{len(calls_b)} calls in B")
     calls_ab = calls_a.intersection(calls_b)
-    ab_info=f"{len(calls_ab)} calls in both A and B"
-    print(ab_info)
+    print(f"{len(calls_ab)} calls in both A and B")
+    calls_aob = calls_a.union(calls_b)
+    print(f"{len(calls_aob)} calls in either A or B")
+    
+    return calls_a, calls_b, calls_ab, calls_aob, dA, dB
 
-    return calls_a, calls_b, calls_ab, dA, dB
+
+def plot_session_counts(ax, calls, dA, dB):
+    global colorseries
+    decode_counts_a, decode_counts_b = [], []
+    for c in calls:
+        decode_counts_a.append(sum(c == da['oc'] for da in dA))  
+        decode_counts_b.append(sum(c == db['oc'] for db in dB))
+    xplot = [n + 0.2*random.random() for n in decode_counts_a]
+    yplot = [n + 0.2*random.random() for n in decode_counts_b]
+    cols = colorseries * (1+int(len(xplot)/len(colorseries)))
+    ax.scatter(xplot, yplot, c = cols[0: len(xplot)] , marker ="o", alpha = 0.9)
+    ax.axline((0, 0), slope=1, color="black", linestyle=(0, (5, 5)))
+    axmax = max(ax.get_xlim()[1], ax.get_ylim()[1])
+    ax.set_xlim(0, axmax)
+    ax.set_ylim(0, axmax)
+    ax.set_title("Number of decodes of each callsign in the time window above")
+    ax.set_xlabel("Number of decodes in all.txt A")
+    ax.set_ylabel("Number of decodes in all.txt B")
 
 
 def plot_session_snrs(ax, calls, dA, dB):
-
-    ax.axline((0, 0), slope=1, color="black", linestyle=(0, (5, 5)))
-
-    # need to move this so it doesn't initialise when starting each plot - global or __init__ if making a class
-    from random import randint
-    colorseries = []
-    ncolors = 20
-    for i in range(ncolors):
-        colorseries.append('#%06X' % randint(0, 0xFFFFFF))
-
-    call_counts_a = [0] * len(calls)
-    call_counts_b = [0] * len(calls)
+    global colorseries
     for i, c in enumerate(calls):
         series_x = []
         series_y = []
-        colors=[]
         for da in dA:
             if(da['oc']==c):
-                call_counts_a[i] += 1                       # simple count of reports over time window, all A
                 for db in dB:
                     if(db['oc'] == c):
-                        call_counts_b[i] += 1               # simple count of reports over time window, all B
                         if (abs(da['t'] - db['t']) <30):    # coincident reports of same callsign: append SNRs for plot
                             series_x.append(da['rp'])
                             series_y.append(db['rp'])
-        
-        ax.plot(series_x, series_y, c = colorseries[i % ncolors] , marker ="o")
+        if(series_x != []):
+            ax.plot(series_x, series_y, color = colorseries[i % len(colorseries)] , marker ="o", alpha = 0.9)
+    ax.axline((0, 0), slope=1, color="black", linestyle=(0, (5, 5)))
     axrng = (min(ax.get_xlim()[0], ax.get_ylim()[0]), max(ax.get_xlim()[1], ax.get_ylim()[1]))
     ax.set_xlim(axrng)
     ax.set_ylim(axrng)
@@ -69,40 +84,40 @@ def plot_session_snrs(ax, calls, dA, dB):
     ax.set_xlabel("SNR in all.txt A")
     ax.set_ylabel("SNR in all.txt B")
 
-def plot_all_historic(allA, allB, session_guard_seconds, dump_data_with_plots):
-    print(f"Reading All A: from {allA}")
-    print("Sessions found:")
-    alldecA, sA = read_allfile(allA, session_guard_seconds)
-    for i, s in enumerate(sA):
-        print(f"{i+1} {get_session_info_string(s)}")
-    print(f"Reading All B: from {allB}")
-    print("Sessions found:")
-    alldecB, sB = read_allfile(allB, session_guard_seconds)
-    for i, s in enumerate(sB):
-        print(f"{i+1} {get_session_info_string(s)}")
+def get_session_info_string(ts, te, bm):
+    tmins = (te-ts)/60
+    return(f"{datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H%M')} {bm} for {tmins} mins")
 
-    print("Finding overlapping sessions:")
-    coinc = get_overlapping_sessions(sA, sB)
-    for i, c in enumerate(coinc):
-        print(f"{i+1} {get_session_info_string(c)}")
-        
+def list_sessions(sessions):
+    for i, s in enumerate(sessions):
+        print(f"{i+1} {get_session_info_string(*s)}")
+
+def plot_all_historic(allA, allB, session_guard_seconds, dump_data_with_plots):
+    
+    alldecA, sA = read_allfile(allA, session_guard_seconds)
+    list_sessions(sA)
+    alldecB, sB = read_allfile(allB, session_guard_seconds)
+    list_sessions(sB)
+    sessions = get_overlapping_sessions(sA, sB)
+    list_sessions(sessions)
     print("Time windowing decode lists")
-    tmin, _, _ = coinc[0]
-    _, tmax, _ = coinc[-1]
+    tmin, _, _ = sessions[0]
+    _, tmax, _ = sessions[-1]
     decA = time_window_decodes(alldecA, tmin, tmax)
     decB = time_window_decodes(alldecB, tmin, tmax)
+    init_colours()
 
     print("Plotting sessions:")
-    for i, c in enumerate(coinc):
-        ts, te, bm = c
+    for i, sess in enumerate(sessions):
+        ts, te, bm = sess
         fig,ax = plt.subplots()
 
-        session_info = get_session_info_string(c)        
-        calls_a, calls_b, calls_ab, dA, dB = get_session_data(decA, decB, int(ts), int(te))
-        plot_session_snrs(ax, calls_ab, dA, dB)
+        session_info = get_session_info_string(*sess)        
+        calls_a, calls_b, calls_ab, calls_aob, dA, dB = get_session_data(decA, decB, int(ts), int(te))
+        plot_session_snrs(ax, calls_aob, dA, dB)
         calls_info = f"Callsigns found: A only, {len(calls_a)-len(calls_ab)}; A&B, {len(calls_ab)}; B only, {len(calls_b)-len(calls_ab)}"
 
-        print(f"\nPlotting session {i+1} of {len(coinc)} {session_info}")
+        print(f"\nPlotting session {i+1} of {len(sessions)} {session_info}")
         fig.suptitle(f"{session_info}\n{calls_info}") 
         plt.tight_layout()
         if not os.path.exists("plots"):
@@ -113,9 +128,11 @@ def plot_all_historic(allA, allB, session_guard_seconds, dump_data_with_plots):
         plt.close()
 
 def plot_live(allA, allB, plot_window_seconds):
+
     import time
     fig,ax = plt.subplots()
     plt.ion()
+    init_colours()
     while(True):
         session_guard_seconds = 0
         decA, sA = read_allfile(allA, session_guard_seconds)
@@ -123,13 +140,12 @@ def plot_live(allA, allB, plot_window_seconds):
         if(sA[-1][2] != sB[-1][2]):
             print(f"Band/modes don't match ({sA[-1][2]} vs {sB[-1][2]})")
         tmax = max(sA[-1][1], sB[-1][1])
-        tmax = time.time()
         tmin = tmax - plot_window_seconds
         ax.cla()
         
-        session_info = get_session_info_string(sA[-1])
-        calls_a, calls_b, calls_ab, dA, dB = get_session_data(decA, decB, int(tmin), int(tmax))
-        plot_session_snrs(ax, calls_ab, dA, dB)
+        session_info = get_session_info_string(tmin, tmax, sA[-1][2])
+        calls_a, calls_b, calls_ab, calls_aob, dA, dB = get_session_data(decA, decB, int(tmin), int(tmax))
+        plot_session_counts(ax, calls_aob, dA, dB)
         calls_info = f"Callsigns found: A only, {len(calls_a)-len(calls_ab)}; A&B, {len(calls_ab)}; B only, {len(calls_b)-len(calls_ab)}"
         
         fig.suptitle(f"{session_info}\n{calls_info}") 
