@@ -1,6 +1,6 @@
 [project]
 name = "wsjt_all"
-version = "1.0.0"
+version = "1.0.1"
 license = "MIT"
 
 authors = [
@@ -9,7 +9,7 @@ authors = [
 description = "Automated plots and analysis from the WSJT-X ALL.txt file"
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = []
+dependencies = ["matplotlib"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Topic :: Utilities"
