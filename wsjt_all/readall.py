@@ -26,31 +26,40 @@ def get_decodes(fp):
             decodes.append(d)
     return(decodes)
 
-def get_single_file_sessions(decodes):
+def get_single_file_sessions(decodes, session_split_guard_secs):
     # is this picking up the very last session?
-    tg = 5*60
     t0=0
     bm0 = ""
     s_idx = []
     for idx, d in enumerate(decodes):
         t1 = int(d['t'])
-        if(t1-t0 > tg or d['bm'] != bm0): # new session
-            s_idx.append(idx)
+        if(t1-t0 > session_split_guard_secs or d['bm'] != bm0): # new session
+            s_idx.append([idx, idx-1])
         t0=t1
         bm0 = d['bm']
-    s_idx.append(len(decodes)-1)
+    s_idx.append([None, len(decodes)-1])
     sess = []
-    for i, idxs in enumerate(s_idx[0:-1]):
-        idxe = s_idx[i+1]
+    for i, idx in enumerate(s_idx[0:-1]):
+        idxs = s_idx[i][0]
+        idxe = s_idx[i+1][1]
         sess.append((int(decodes[idxs]['t']), int(decodes[idxe]['t']), decodes[idxs]['bm']))
     return sess
 
-def read_allfile(fp):
+def read_allfile(fp, session_split_guard_secs):
     decodes = get_decodes(fp)
-    sessions = get_single_file_sessions(decodes)
+    sessions = get_single_file_sessions(decodes, session_split_guard_secs)
     return decodes, sessions
 
-def get_overlapping_sessions(a,b):
+
+def debug_print_overlap(a_left, a_right, b_left, b_right, ab_left, ab_right):
+    def hm(ts):
+        return datetime.datetime.fromtimestamp(ts).strftime('%H%M')
+    print(datetime.datetime.fromtimestamp(a_left).strftime('%Y-%m-%d'))
+    print(f"A: {hm(a_left)} to {hm(a_right)}")
+    print(f"B: {hm(b_left)} to {hm(b_right)}")
+    print(f"AB: {hm(ab_left)} to {hm(ab_right)}")
+
+def get_overlapping_sessions(a,b, min_session_secs = 60):
     ranges = []
     i = j = 0
     while i < len(a) and j < len(b):
@@ -60,15 +69,17 @@ def get_overlapping_sessions(a,b):
             i += 1
         else:
             j += 1
-        if a_right >= b_left and b_right >= a_left and a_bm == b_bm:
-            end_pts = sorted([a_left, a_right, b_left, b_right])
-            middle = [end_pts[1], end_pts[2], a_bm]
-            ranges.append(middle)
-#    ri = 0
-#    while ri < len(ranges)-1:
-#        if ranges[ri][1] == ranges[ri+1][0]:
-#            ranges[ri:ri+2] = [[ranges[ri][0], ranges[ri+1][1]]]
-#        ri += 1    
+        if(a_left>=b_left and a_left < b_right - min_session_secs and a_bm == b_bm):
+            ranges.append([a_left, min(a_right, b_right), a_bm])
+            #debug_print_overlap(a_left, a_right, b_left, b_right, ranges[-1][0], ranges[-1][1])
+
+        if(b_left>=a_left and b_left < a_right - min_session_secs and a_bm == b_bm):
+            ranges.append([b_left, min(a_right, b_right), a_bm])
+            #debug_print_overlap(a_left, a_right, b_left, b_right, ranges[-1][0], ranges[-1][1])
+
+
+        
+ 
     return ranges
 
 

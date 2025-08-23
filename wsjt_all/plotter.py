@@ -65,20 +65,20 @@ def plot_session(ax, decA, decB, ts, te, bm):
     return info
 
 
-def plot_all_historic(allA, allB):
+def plot_all_historic(allA, allB, session_guard_seconds):
     print(f"Reading All A: from {allA}")
     print("Sessions found:")
-    alldecA, sA = read_allfile(allA)
+    alldecA, sA = read_allfile(allA, session_guard_seconds)
     for i, s in enumerate(sA):
         print(f"{i+1} {get_session_info_string(s)}")
     print(f"Reading All B: from {allB}")
     print("Sessions found:")
-    alldecB, sB = read_allfile(allB)
+    alldecB, sB = read_allfile(allB, session_guard_seconds)
     for i, s in enumerate(sB):
         print(f"{i+1} {get_session_info_string(s)}")
 
     print("Finding overlapping sessions:")
-    coinc = get_overlapping_sessions(sA,sB)
+    coinc = get_overlapping_sessions(sA, sB)
     for i, c in enumerate(coinc):
         print(f"{i+1} {get_session_info_string(c)}")
         
@@ -104,19 +104,18 @@ def plot_all_historic(allA, allB):
         plt.savefig(f"plots/{plotfile}")
         plt.close()
 
-def plot_live(allA, allB):
+def plot_live(allA, allB, plot_window_seconds):
     import time
-    tg = 5*60
     fig,ax = plt.subplots()
     plt.ion()
     while(True):
-        decA, sA = read_allfile(allA)
-        decB, sB = read_allfile(allB)
+        decA, sA = read_allfile(allA, session_guard_seconds)
+        decB, sB = read_allfile(allB, session_guard_seconds)
         if(sA(2) != sB(2)):
             print(f"Band/modes don't match ({sA} vs {sB})")
         tmax = max(sA[-1][1], sB[-1][1])
         tmax = time.time()
-        tmin = tmax - tg
+        tmin = tmax - plot_window_seconds
         ax.cla()
         session_info = get_session_info_string(sA)
         calls_info = plot_session(ax, decA, decB, int(tmin), int(tmax), sA(2))

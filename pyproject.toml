@@ -1,0 +1,36 @@
+[project]
+name = "wsjt_all"
+version = "0.1.0"
+license = "MIT"
+
+authors = [
+  { name="G1OJS", email="g1ojs@yahoo.com" },
+]
+description = "Automated plots and analysis from the WSJT-X ALL.txt file"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Utilities"
+]
+
+keywords = [
+    "hamradio",
+    "WSJT",
+    "WSJT-X"
+]
+
+[project.urls]
+Homepage = "https://github.com/G1OJS/wsjt_all"
+Issues = "https://github.com/G1OJS/wsjt_all/issues"
+
+[project.scripts]
+wsjt_all_AB = "wsjt_all:wsjt_all_AB"
+wsjt_all_AB_live = "wsjt_all:wsjt_all_AB_live"
+
+[tool.setuptools]
+license-files = ["LICENSE"]
+
+
+
