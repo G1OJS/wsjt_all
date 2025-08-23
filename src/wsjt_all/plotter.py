@@ -57,7 +57,7 @@ def plot_session(ax, decA, decB, ts, te, bm):
     axrng = (min(ax.get_xlim()[0], ax.get_ylim()[0]), max(ax.get_xlim()[1], ax.get_ylim()[1]))
     ax.set_xlim(axrng)
     ax.set_ylim(axrng)
-    info = f"Callsigns found: A only, {len(calls_a)-len(calls)}; A&B, {len(calls)}; B only, {len(calls_b)}"
+    info = f"Callsigns found: A only, {len(calls_a)-len(calls)}; A&B, {len(calls)}; B only, {len(calls_b)-len(calls)}"
     ax.set_title("SNRs for callsigns in both A and B")
     ax.set_xlabel("SNR in all A")
     ax.set_ylabel("SNR in all B")
