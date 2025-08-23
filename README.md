@@ -37,6 +37,8 @@ wsjt_all_ab_live
 ```
 This analyses the very last session in the all files, and plots a live-updating plot covering the current time to 5 minutes ago. It will be blank if you are not currently running two instances of WSJT-X as described above.
 
+Note - I keep my all.txt files fairly small by archiving sections into other files, so if you have a single all file covering years of operation, you may have to edit it or wait quite a while for the plots!
+
 ## Configuration
 The software uses a simple wsjt_all.ini file to locate the all.txt files and set a couple of options. If none exists, the software can create a template for you but you still need to edit it to specify the paths to the all files. The wsjt_all.ini file looks like this:
 ```
