@@ -1,9 +1,9 @@
-from plotter import plot_all_historic, plot_live
 
+import wsjt_all as wall
 
 allA = r"C:\Users\drala\AppData\Local\WSJT-X\all.txt"
 allB = r"C:\Users\drala\AppData\Local\WSJT-X - AltAB\all.txt"
-plot_all_historic(allA, allB)
+wall.plot_all_historic(allA, allB)
 
 
 #plot_live(allA, allB)

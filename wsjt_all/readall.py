@@ -4,7 +4,7 @@ import datetime
 def get_session_info_string(sess):
     ts, te, bm = sess
     tmins = (te-ts)/60
-    return(f"Session {datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H%M')} {bm} for {tmins} mins")
+    return(f"{datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H%M')} {bm} for {tmins} mins")
 
 def allstr_to_epoch(s):
     dt = datetime.datetime(int("20"+s[0:2]), int(s[2:4]), int(s[4:6]),
@@ -40,7 +40,7 @@ def get_single_file_sessions(decodes):
         bm0 = d['bm']
     s_idx.append(len(decodes)-1)
     sess = []
-    for i, idxs in enumerate(s_idx[0:-2]):
+    for i, idxs in enumerate(s_idx[0:-1]):
         idxe = s_idx[i+1]
         sess.append((int(decodes[idxs]['t']), int(decodes[idxe]['t']), decodes[idxs]['bm']))
     return sess
