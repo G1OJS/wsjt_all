@@ -10,7 +10,7 @@ My own pesonal motivation here is to compare my reception performance, in a fair
 I will probably develop this next to produce plots from *single* ALL.txt files, and produce more / different plots etc.
 
 ## Outputs
-In the plots folder you will find plots like this:
+After you run the program, you will find a 'plots' folder in which you will find plots like this:
 
 <img width="640" height="480" alt="2025-08-11 2238 14FT8 for 29 75 mins" src="https://github.com/user-attachments/assets/faa4bb16-eec8-4a65-9f6f-6c9c90d7641b" />
 
