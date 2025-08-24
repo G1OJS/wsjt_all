@@ -36,7 +36,7 @@ def plot_counts(ax, calls, decodes_A, decodes_B):
     axmax = max(ax.get_xlim()[1], ax.get_ylim()[1])
     ax.set_xlim(0, axmax)
     ax.set_ylim(0, axmax)
-    ax.set_title("Number of decodes of each callsign in session for A and B")
+    ax.set_title("Number of decodes per callsign")
     ax.set_xlabel("Number of decodes in all.txt A")
     ax.set_ylabel("Number of decodes in all.txt B")
 
@@ -58,7 +58,7 @@ def plot_snrs(ax, calls, decodes_A, decodes_B):
     axrng = (min(ax.get_xlim()[0], ax.get_ylim()[0]), max(ax.get_xlim()[1], ax.get_ylim()[1]))
     ax.set_xlim(axrng)
     ax.set_ylim(axrng)
-    ax.set_title("SNR of all decodes in session for calls in both A and B")
+    ax.set_title("SNR of simultaneous decodes")
     ax.set_xlabel("SNR in all.txt A")
     ax.set_ylabel("SNR in all.txt B")
 

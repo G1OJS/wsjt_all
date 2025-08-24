@@ -10,12 +10,13 @@ def allfile_line_to_dict(line):
     if len(vals) < 9:
         return False
     t = allstr_to_epoch(vals[0])
-    return {'t': int(t), 'ts': vals[0], 'bm':vals[1].split(".")[0]+vals[3], 'oc': vals[8], 'rp': int(vals[4])}
+    MHz = round(float(vals[1]),3)
+    return {'t': int(t), 'ts': vals[0], 'bm':f'{MHz}MHz-{vals[3]}', 'oc': vals[8], 'rp': int(vals[4])}
 
 def get_session_info_string(sess):
     ts, te, bm = sess
     tmins = (te-ts)/60
-    return(f"{datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H%M')} {bm} for {tmins} mins")
+    return(f"{bm} {datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H%M')} for {tmins} mins")
 
 def list_sessions(sessions):
     for i, s in enumerate(sessions):
