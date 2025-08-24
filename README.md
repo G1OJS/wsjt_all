@@ -1,4 +1,4 @@
-# wsjt_all
+# wsjt_all [![PyPI Downloads](https://static.pepy.tech/badge/wsjt-all)](https://pepy.tech/projects/wsjt-all)
 **A Python command-line tool to analyse WSJT-X 'all.txt' files**
 <img align="right" height="150" src="[https://picsum.photos/100/100](https://github.com/user-attachments/assets/656d2b19-4ef9-41f8-9490-98db032a40c4)">
 ## Purpose
