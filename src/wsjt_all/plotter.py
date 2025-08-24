@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import random
 import os
 from .load_sessions import get_session_info_string
@@ -74,6 +75,18 @@ def get_callsigns(decodes):
             callsigns.add(d['oc'])
     return callsigns
 
+def venn(ax, ns):
+    x1 = ns[0]/sum(ns)
+    x2 = (sum(ns)-ns[2])/sum(ns)
+    ax.set_axis_off()
+    ax.add_patch(plt.Rectangle((0,0), x1,1, color = 'green', alpha = 0.3))
+    ax.add_patch(plt.Rectangle((x1,0), x2-x1,1, color = 'yellow', alpha = 0.3))
+    ax.add_patch(plt.Rectangle((x2,0),1-x2,1, color = 'red', alpha = 0.3))
+    ax.text(x1/2,0.5, f'A {ns[0]}', horizontalalignment='center',verticalalignment='center')
+    ax.text(x1+(x2-x1)/2,0.5, f'AB {ns[1]}', horizontalalignment='center',verticalalignment='center')
+    ax.text(0.5+x2/2,0.5, f'B {ns[2]}', horizontalalignment='center',verticalalignment='center')
+    ax.set_title("Number of callsigns in A only, A&B, B only")
+
 def make_chart(plt, fig, axs, decodes_A, decodes_B, session_info):
     decs_A = time_window_decodes(decodes_A, session_info[0], session_info[1])
     decs_B = time_window_decodes(decodes_B, session_info[0], session_info[1])
@@ -81,11 +94,11 @@ def make_chart(plt, fig, axs, decodes_A, decodes_B, session_info):
     calls_b= get_callsigns(decs_B)
     calls_ab = calls_a.intersection(calls_b)
     calls_aob = calls_a.union(calls_b)
-    calls_info_string = f"Callsigns found: A only, {len(calls_a)-len(calls_ab)}; A&B, {len(calls_ab)}; B only, {len(calls_b)-len(calls_ab)}"
-    session_info_string = get_session_info_string(session_info)        
-    plot_counts(axs[0], calls_aob, decs_A, decs_B)
-    plot_snrs(axs[1], calls_aob, decs_A, decs_B)
-    fig.suptitle(f"Session: {session_info_string}\n{calls_info_string}") 
+    session_info_string = get_session_info_string(session_info)
+    venn(axs[0], [len(calls_a)-len(calls_ab), len(calls_ab), len(calls_b)-len(calls_ab)])
+    plot_counts(axs[1], calls_aob, decs_A, decs_B)
+    plot_snrs(axs[2], calls_aob, decs_A, decs_B)
+    fig.suptitle(f"Session: {session_info_string}") 
     plt.tight_layout()
        
 

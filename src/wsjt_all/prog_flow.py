@@ -28,13 +28,13 @@ def plot_all_historic(allfilepath_A, allfilepath_B, session_guard_seconds):
     print("Plotting sessions:")
     for session_info in sessions_AB:
         session_info_string = get_session_info_string(session_info)
-        fig, axs = plt.subplots(2,1, figsize=(6, 8))
+        fig, axs = plt.subplots(3,1, figsize=(7, 9), height_ratios = (0.1,1,1))
         make_chart(plt, fig, axs, decodes_A, decodes_B, session_info)
         save_chart(plt, session_info_string+".png")
         plt.close()
 
 def plot_live(allfilepath_A, allfilepath_B, session_guard_seconds, plot_window_seconds):
-    fig, axs = plt.subplots(2,1, figsize=(6, 8))
+    fig, axs = plt.subplots(3,1, figsize=(7, 9), height_ratios = (0.1,1,1))
     plt.ion()
     init_colours()
     print("Waiting for live session data from both ALL files")
@@ -49,7 +49,7 @@ def plot_live(allfilepath_A, allfilepath_B, session_guard_seconds, plot_window_s
             ts = te - plot_window_seconds
             bm = sessions_A[-1][2]
             session_info=(ts,te,bm)
-            axs[0].cla(), axs[1].cla()
+            axs[0].cla(), axs[1].cla(), axs[2].cla()
             make_chart(plt, fig, axs, decodes_A, decodes_B, session_info)
             plt.pause(5)
 
