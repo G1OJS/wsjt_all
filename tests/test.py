@@ -1,7 +1,7 @@
 import sys  
-sys.path.append('../src')
+sys.path.append('../')
 
-from wsjt_all import *
+from src import *
 
-wsjt_all_ab()
+wsjt_all_ab_live()
 
