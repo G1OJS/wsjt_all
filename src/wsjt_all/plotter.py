@@ -40,7 +40,7 @@ def plot_counts(ax, calls, decodes_A, decodes_B):
     ax.set_xlabel("Number of decodes in all.txt A")
     ax.set_ylabel("Number of decodes in all.txt B")
 
-def plot_snrs(ax, calls, decodes_A, decodes_B):
+def plot_snrs(ax, calls, decodes_A, decodes_B, show_best_snrs_only):
     global colourseries
     for i, c in enumerate(calls):
         series_x = []
@@ -53,6 +53,9 @@ def plot_snrs(ax, calls, decodes_A, decodes_B):
                             series_x.append(da['rp'])
                             series_y.append(db['rp'])
         if(series_x != []):
+            if(show_best_snrs_only):
+                series_x = [max(series_x)]
+                series_y = [max(series_y)]
             ax.plot(series_x, series_y, color = colourseries[i % len(colourseries)] , marker ="o", alpha = 0.9)
     ax.axline((0, 0), slope=1, color="black", linestyle=(0, (5, 5)))
     axrng = (min(ax.get_xlim()[0], ax.get_ylim()[0]), max(ax.get_xlim()[1], ax.get_ylim()[1]))
@@ -87,7 +90,7 @@ def venn(ax, ns):
     ax.text(0.5+x2/2,0.5, f'B {ns[2]}', horizontalalignment='center',verticalalignment='center')
     ax.set_title("Number of callsigns in A only, A&B, B only")
 
-def make_chart(plt, fig, axs, decodes_A, decodes_B, session_info):
+def make_chart(plt, fig, axs, decodes_A, decodes_B, session_info, show_best_snrs_only = False):
     decs_A = time_window_decodes(decodes_A, session_info[0], session_info[1])
     decs_B = time_window_decodes(decodes_B, session_info[0], session_info[1])
     calls_a= get_callsigns(decs_A)
@@ -97,7 +100,7 @@ def make_chart(plt, fig, axs, decodes_A, decodes_B, session_info):
     session_info_string = get_session_info_string(session_info)
     venn(axs[0], [len(calls_a)-len(calls_ab), len(calls_ab), len(calls_b)-len(calls_ab)])
     plot_counts(axs[1], calls_aob, decs_A, decs_B)
-    plot_snrs(axs[2], calls_aob, decs_A, decs_B)
+    plot_snrs(axs[2], calls_aob, decs_A, decs_B, show_best_snrs_only)
     fig.suptitle(f"Session: {session_info_string}") 
     plt.tight_layout()
        

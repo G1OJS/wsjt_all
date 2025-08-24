@@ -16,24 +16,26 @@ def check_config():
             txt += "\nallB = please edit this path to secondary WSJT-X all.txt"
             txt += "\n\n[settings]"
             txt += "\nsession_guard_seconds = 300"
-            txt += "\nlive_plot_window_seconds = 300\n"
+            txt += "\nlive_plot_window_seconds = 300"
+            txt += "\nshow_best_snrs_only = N"
+            txt += "\n"
             with open("wsjt_all.ini","w") as f:
               f.write(txt)
             print("A wsjt_all.ini file has been created, but please edit the paths to point to the two ALL.txt files you want to compare.")
         print("Exiting program")
 
-def plot_all_historic(allfilepath_A, allfilepath_B, session_guard_seconds):
+def plot_all_historic(allfilepath_A, allfilepath_B, session_guard_seconds, show_best_snrs_only):
     sessions_AB, decodes_A, decodes_B = load_overlapping_sessions(allfilepath_A, allfilepath_B, session_guard_seconds)
     init_colours()
     print("Plotting sessions:")
     for session_info in sessions_AB:
         session_info_string = get_session_info_string(session_info)
         fig, axs = plt.subplots(3,1, figsize=(7, 9), height_ratios = (0.1,1,1))
-        make_chart(plt, fig, axs, decodes_A, decodes_B, session_info)
+        make_chart(plt, fig, axs, decodes_A, decodes_B, session_info, show_best_snrs_only)
         save_chart(plt, session_info_string+".png")
         plt.close()
 
-def plot_live(allfilepath_A, allfilepath_B, session_guard_seconds, plot_window_seconds):
+def plot_live(allfilepath_A, allfilepath_B, session_guard_seconds, plot_window_seconds, show_best_snrs_only):
     fig, axs = plt.subplots(3,1, figsize=(7, 9), height_ratios = (0.1,1,1))
     plt.ion()
     init_colours()
@@ -50,7 +52,7 @@ def plot_live(allfilepath_A, allfilepath_B, session_guard_seconds, plot_window_s
             bm = sessions_A[-1][2]
             session_info=(ts,te,bm)
             axs[0].cla(), axs[1].cla(), axs[2].cla()
-            make_chart(plt, fig, axs, decodes_A, decodes_B, session_info)
+            make_chart(plt, fig, axs, decodes_A, decodes_B, session_info, show_best_snrs_only)
             plt.pause(5)
 
 def run(option):
@@ -60,10 +62,11 @@ def run(option):
         allfilepath_A, allfilepath_B = config.get("inputs","allA"), config.get("inputs","allB")    
         session_guard_seconds = int(config.get("settings","session_guard_seconds"))
         live_plot_window_seconds = int(config.get("settings","live_plot_window_seconds"))
+        show_best_snrs_only = (config.get("settings","show_best_snrs_only") == "Y")
         if(option=="hist"):
-            plot_all_historic(allfilepath_A, allfilepath_B, session_guard_seconds)
+            plot_all_historic(allfilepath_A, allfilepath_B, session_guard_seconds, show_best_snrs_only)
         else:
-            plot_live(allfilepath_A, allfilepath_B, session_guard_seconds, live_plot_window_seconds)
+            plot_live(allfilepath_A, allfilepath_B, session_guard_seconds, live_plot_window_seconds, show_best_snrs_only)
 
 def wsjt_all_ab():
     run("hist")
