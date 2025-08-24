@@ -1,7 +1,7 @@
 # wsjt_all
 **A Python command-line tool to analyse WSJT-X 'all.txt' files**
 ## Purpose
-The point of this tool is to make analysing the WSJT-X 'all.txt' files easy, avoiding having to open them with text editors, and providing various plots and statistical summaries.
+The point of this tool is to make analysing the WSJT-X 'all.txt' files for A/B comparisons easier, avoiding having to open them with text editors, and providing various plots and statistical summaries.
 
 **This initial version has been developed specifically to analyse a *pair* of all.txt files, to compare *reception* performance achieved with two different and *simultaneous* station configurations.** 
 
