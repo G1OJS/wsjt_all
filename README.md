@@ -3,6 +3,8 @@
 ## Purpose
 The point of this tool is to make analysing the WSJT-X 'all.txt' files easy, avoiding having to open them with text editors, and providing various plots and statistical summaries.
 
+**Whilst the tool is fully functional, the presentation of the data is being developed as I use this for my own interest, and some things need tidying (such as the cryptic '3FT8', '14FT8' in the plot title) that I haven't yet got around to**
+
 **This initial version has been developed specifically to analyse a *pair* of all.txt files, to compare *reception* performance achieved with two different and *simultaneous* station configurations.** 
 
 My own pesonal motivation here is to compare my reception performance, in a fairly dense urban/sub-urban location, with reception at a remote site (web SDR). To do this, I run two separate instances of WSJT-X, with one connected to the transceiver as normal, and the other receiving audio via a virtual cable from a web SDR running in a browser window. This results in a second ALL.txt file with a few sessions that overlap the sessions in the large 'main' all.txt file. Browsing these files to compare reception is not trivial, and getting a good overview of the differences is difficult - hence, this software.
