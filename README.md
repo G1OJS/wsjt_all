@@ -3,6 +3,8 @@
 ## Purpose
 The point of this tool is to make analysing the WSJT-X 'all.txt' files easy, avoiding having to open them with text editors, and providing various plots and statistical summaries.
 
+**Whilst the tool is fully functional, the presentation of the data is being developed as I use this for my own interest, and some things need tidying (such as the cryptic '3FT8', '14FT8' in the plot title) that I haven't yet got around to**
+
 **This initial version has been developed specifically to analyse a *pair* of all.txt files, to compare *reception* performance achieved with two different and *simultaneous* station configurations.** 
 
 My own pesonal motivation here is to compare my reception performance, in a fairly dense urban/sub-urban location, with reception at a remote site (web SDR). To do this, I run two separate instances of WSJT-X, with one connected to the transceiver as normal, and the other receiving audio via a virtual cable from a web SDR running in a browser window. This results in a second ALL.txt file with a few sessions that overlap the sessions in the large 'main' all.txt file. Browsing these files to compare reception is not trivial, and getting a good overview of the differences is difficult - hence, this software.
@@ -19,12 +21,13 @@ The questions I had in my mind, that I wrote this to try to answer, include:
 ## Outputs
 After you run the program, you will find a 'plots' folder in which you will find plots like this:
 
-<img width="640" height="480" alt="2025-08-11 2238 14FT8 for 29 75 mins" src="https://github.com/user-attachments/assets/faa4bb16-eec8-4a65-9f6f-6c9c90d7641b" />
+<img width="600" height="800" alt="2025-08-22 0005 3FT8 for 5 25 mins" src="https://github.com/user-attachments/assets/b1f5d755-6bf1-400c-ac21-23917474c7f1" />
 
-The markers represent each signal report (SNR in dB) plotting one all file against the other. Reports falling on the dashed black line are equal in SNR between the two receivers. Reports from a given remote callsign are shown as a collection by coloring then a specific colour per callsign, and by joining the markers with lines. Of course, there are typically far more callsigns than colours available, so colours are re-used across different callsigns. 
+In the upper plot, the markers represent each callsign detected in the session, and the marker position shows the number of times this callsign was seen within the session time window in each all.txt file. To allow visibility of markers that lie on top of each other, some random position errors are deliberately added. Markers lying on the X axis or Y axis were seen in only one of the all files.
 
-The picture above shows an example of reception at G1OJS (20m FT8 late summer evening) - on the X axis, with the Y axis derived from audio from the web SDR at Hack Green in England. Clearly, Hack Green is doing better than me for many callsigns, but the reverse is true for some specific ones (different shades of green on the right). Future development may reveal *why* ! Note also that Hack Greein in this case is receiving a few hundred calsigns that I don't hear *at all* - see 'B only' in the figure title - but for the ones we both hear, the SNRs are comparable.
+In the lower plot, the markers represent each signal report (SNR in dB) found, plotting one 'all.txt' file against the other. Reports falling on the dashed black line are equal in SNR between the two files / reception configurations. Reports from a given remote callsign are shown as a collection by coloring them a specific (but random) colour per callsign, and by joining the markers with lines. Of course, there are typically far more callsigns than colours available, so colours are re-used across different callsigns. 
 
+The sepecific example above shows reception on 80m FT8, around midnight in summer, at G1OJS (on the X axis), compared with decodes derived from audio from the web SDR at Hack Green in England (on the Y axis). 
 
 ## Installation
 Install with pip:
