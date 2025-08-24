@@ -3,5 +3,5 @@ sys.path.append('../')
 
 from src import *
 
-wsjt_all_ab_live()
+wsjt_all_ab()
 

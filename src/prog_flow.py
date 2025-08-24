@@ -22,7 +22,7 @@ def check_config():
             print("A wsjt_all.ini file has been created, but please edit the paths to point to the two ALL.txt files you want to compare.")
         print("Exiting program")
 
-def plot_all_historic(allfilepath_A, allfilepath_B, session_guard_seconds, dump_data_with_plots):
+def plot_all_historic(allfilepath_A, allfilepath_B, session_guard_seconds):
     sessions_AB, decodes_A, decodes_B = load_overlapping_sessions(allfilepath_A, allfilepath_B, session_guard_seconds)
     init_colours()
     print("Plotting sessions:")
@@ -33,13 +33,12 @@ def plot_all_historic(allfilepath_A, allfilepath_B, session_guard_seconds, dump_
         save_chart(plt, session_info_string+".png")
         plt.close()
 
-def plot_live(allfilepath_A, allfilepath_B, plot_window_seconds):
+def plot_live(allfilepath_A, allfilepath_B, session_guard_seconds, plot_window_seconds):
     fig, axs = plt.subplots(2,1, figsize=(6, 8))
     plt.ion()
     init_colours()
     print("Waiting for live session data from both ALL files")
     while(True):
-        session_guard_seconds = 0
         t_recent = datetime.datetime.now().timestamp() - plot_window_seconds * 3 # allow for delay in receiving live spots
         decodes_A, sessions_A = load_sessions(allfilepath_A, session_guard_seconds, skip_all_before = t_recent)
         decodes_B, sessions_B = load_sessions(allfilepath_B, session_guard_seconds, skip_all_before = t_recent)
@@ -60,12 +59,11 @@ def run(option):
         config.read("wsjt_all.ini")
         allfilepath_A, allfilepath_B = config.get("inputs","allA"), config.get("inputs","allB")    
         session_guard_seconds = int(config.get("settings","session_guard_seconds"))
-        dump_data_with_plots = config.get("settings","dump_data_with_plots")
         live_plot_window_seconds = int(config.get("settings","live_plot_window_seconds"))
         if(option=="hist"):
-            plot_all_historic(allfilepath_A, allfilepath_B, session_guard_seconds, dump_data_with_plots)
+            plot_all_historic(allfilepath_A, allfilepath_B, session_guard_seconds)
         else:
-            plot_live(allfilepath_A, allfilepath_B, live_plot_window_seconds)
+            plot_live(allfilepath_A, allfilepath_B, session_guard_seconds, live_plot_window_seconds)
 
 def wsjt_all_ab():
     run("hist")

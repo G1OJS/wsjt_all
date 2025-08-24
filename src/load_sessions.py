@@ -28,7 +28,6 @@ def load_sessions(allfilepath, session_split_guard_secs, skip_all_before = 0):
             decode = allfile_line_to_dict(line)
             if(decode):
                 decodes.append(decode)
-    print(len(decodes))
     t0=0
     bm0 = ""
     s_idx = []
