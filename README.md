@@ -5,7 +5,8 @@
 The point of this tool is to make analysing the WSJT-X 'all.txt' files for A/B comparisons easier, avoiding having to open them with text editors, and providing various plots and statistical summaries. This initial version has been developed specifically to analyse a *pair* of all.txt files, to compare *reception* performance achieved with two different and *simultaneous* station configurations. Later versions may do something useful with individual all.txt files and look at transmit data too.
 
 ## Features
-* Automatically parse a pair (A,B) of ALL.txt files and produce plots of
+* Automatically parse a pair (A,B) of ALL.txt files and detect sessions of activity that are common to both files
+* Automatically produce the following plots for each session
     * number of callsigns decoded in A and B
     * number of decodes at A and B for each callsign
     * SNRs in A and B for simultaneous decodes
