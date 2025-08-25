@@ -13,20 +13,20 @@ For more detail on the motivation behind this project which *started* with A/B t
 [AB Testing with FT8](https://g1ojs.github.io/wsjt_all/docs/AB-testing-FT8.html).
 
 ## Features
-1) For a single 'all.txt' file:
+**1) For a single 'all.txt' file:**
 * Automatically parse an ALL.txt file and detect sessions of activity 
 * Automatically produce the following plots for each session
     * decode rate (decodes / minute) across the session
     * SNR for each report for each callsign across the session
    
-2) For a pair of 'all.txt' files:
+**2) For a pair of 'all.txt' files:**
 * Automatically parse a pair (A,B) of ALL.txt files and detect sessions of activity that are common to both files
 * Automatically produce the following plots for each session
     * number of callsigns decoded in A and B
     * number of decodes at A and B for each callsign
     * SNRs in A and B for simultaneous decodes
  
-For both use cases:
+**For both use cases:**
  * Run as a batch process to process all historic sessions
  * Run 'live' to monitor a current & ongoing test
  * (Limited) plotting options
@@ -44,7 +44,7 @@ The questions I had in my mind, that I wrote this to try to answer, include:
  - What's more meaningful, SNR or number of times a callsign is received over a time window?
 
 ## Outputs
-[**Note** I have just uploaded V1.4 with the addition of single all.txt file processing, and need to update the section below a little]
+[**Note**: *I have just uploaded V1.4 with the addition of single all.txt file processing, and need to update the section below a little*]
 
 After you run the program, you will find a 'plots' folder in which you will find plots like this:
 
@@ -79,7 +79,7 @@ Note - I keep my all.txt files fairly small by archiving sections into other fil
 The software uses a simple wsjt_all.ini file to locate the all.txt files and set a couple of options. If none exists, the software can create a template for you but you still need to edit it to specify the paths to the all files. The wsjt_all.ini file looks like this:
 ```
 [inputs]
-allA = C:\Users\drala\AppData\Local\WSJT-X\all.txt
+allA = C:\Users\drala\AppData\Local\WSJT-X\all.txt               <- this file is used for the 'single all file' case 
 allB = C:\Users\drala\AppData\Local\WSJT-X - AltAB\all.txt
 
 [settings]
