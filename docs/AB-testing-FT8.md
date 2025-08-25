@@ -1,8 +1,7 @@
-# Using FT8 to Benchmark Station Rx/Tx Performance
+# Using FT8 to Benchmark Station Rx/Tx Performance with wsjt_all
 ## Introduction
-This page is about my personal exploration of ways to check that I'm getting the best possible performance out of my ham radio station, given the constraints I have. Every ham radio station
-has constraints of *some* kind, and part of the fun of the hobby for me is working out how to do the best with the situation you're in. Getting instant signal reports in volume from pskreporter 
-is a huge help in achieving this.
+This page gives some background about why I developed wsjt_all; a bit about my personal exploration of ways to check that I'm getting the best possible performance out of my ham radio station, given the constraints I have. Every ham radio station
+has constraints of *some* kind, and part of the fun of the hobby for me is working out how to do the best with the situation you're in. Getting instant signal reports in volume from [pskreporter](https://pskreporter.info/) has been a huge help in achieving this.
 
 ## My station
 I live in a conservation area where no outside antennas are permitted, so everything I use is indoors. Despite this, when I look at pskreporter, I often have the longest
@@ -25,4 +24,14 @@ I have previously used an end-fed wire cut to 20m length, bent into a U shape to
 you would expect!
 
 # Benchmarking
+After I had played the game of watching the noise level on the S meter whilst adding chokes, turning off ring mains and devices etc, running up and downstairs and scribbling notes and thinking
+"was that better?", I got interested in what I could do with pskreporter. Using the online maps helped me get a feel for how well my antennas were working on transmit, but I didn't get much info
+for receive. When I later learned that once you get a spot on pskrepoter from a particular station, you won't get another for at least 20 minutes, I started to dig into using the live data feed from [mqtt.pskr.info](http://mqtt.pskreporter.info/), where there is no 20 minute limitation on repeated spots.
+
+## BandOpticon
+The first thing I did with the live data feed was write some software to show a live view of the digi-mode activity to and from my neighboring ham stations (in nearby Maidenhead squares). This told me what band activity was like *now* and at least I could then tell if bands were active but for some reason I couldn't hear activity. That was the first objective measure in a sea of subjective ones!
+After a lot of work learning Python (where BandOpticon started) and then re-learning JavaScript, I developed BandOpticon into a web-based page so that anyone can use it. The current version is
+[here](https://g1ojs.github.io/BandOpticon/BandOpticon). You can use this web page to see what bands are active, and get a view of what the connectivity is between your local squares or stations and remote squares/callsigns. There are some experimental views in there that look towards benchmarking too.
+
+## Wsjt-all
 
