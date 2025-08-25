@@ -56,7 +56,7 @@ def plot_snrs(ax, calls, decodes_A, decodes_B, show_best_snrs_only):
             if(show_best_snrs_only):
                 series_x = [max(series_x)]
                 series_y = [max(series_y)]
-            ax.plot(series_x, series_y, color = colourseries[i % len(colourseries)] , marker ="o", alpha = 0.9)
+            ax.plot(series_x, series_y, color = colourseries[i % len(colourseries)] , marker ="o", alpha = 0.9, lw = 0.2)
     ax.axline((0, 0), slope=1, color="black", linestyle=(0, (5, 5)))
     axrng = (min(ax.get_xlim()[0], ax.get_ylim()[0]), max(ax.get_xlim()[1], ax.get_ylim()[1]))
     ax.set_xlim(axrng)
