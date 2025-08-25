@@ -75,7 +75,7 @@ def plot_live_single(allfilepath_A, session_guard_seconds, plot_window_seconds, 
 def plot_all_historic_single(allfilepath_A, session_guard_seconds):
     decodes_A, sessions_A = load_sessions(allfilepath_A, session_guard_seconds)
     for i, session_info in enumerate(sessions_A):
-        if(session_info[1] > session_info[0]):
+        if(session_info[1] > session_info[0] and len(sessions_A)>2):
             session_info_string = get_session_info_string(session_info)
             print(f"Plotting session {i} of {len(sessions_A)}: {session_info_string}")
             fig, axs = plt.subplots(2,1, figsize=(6, 9), height_ratios = (1,1))
