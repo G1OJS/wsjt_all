@@ -57,6 +57,7 @@ body {
 h1 {margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xsm);}
 h2 {margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xsm);}
 h3 {margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xsm);}
+h4 {margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xsm);}
 
 p {
   margin: 0 0 var(--spacing) 0;
@@ -221,4 +222,12 @@ a:visited {color: #888;}
 .image-left {float:left; margin:10px; margin-left:0px;}
 .image-right {float:right; margin:10px; margin-right:0px;}
 .image-centre {align:center; margin:10px}
+
+a:link {color: #888;}
+a:visited {color: #888;}
+
+h1 {margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xsm);}
+h2 {margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xsm);}
+h3 {margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xsm);}
+h4 {margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xsm);}
 
