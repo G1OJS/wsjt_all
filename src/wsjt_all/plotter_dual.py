@@ -56,7 +56,7 @@ def plot_snrs(ax, calls, decodes_A, decodes_B, show_best_snrs_only):
             if(show_best_snrs_only):
                 series_x = [max(series_x)]
                 series_y = [max(series_y)]
-            ax.plot(series_x, series_y, color = colourseries[i % len(colourseries)] , marker ="o", alpha = 0.9)
+            ax.plot(series_x, series_y, color = colourseries[i % len(colourseries)] , marker ="o", alpha = 0.9, lw = 0.2)
     ax.axline((0, 0), slope=1, color="black", linestyle=(0, (5, 5)))
     axrng = (min(ax.get_xlim()[0], ax.get_ylim()[0]), max(ax.get_xlim()[1], ax.get_ylim()[1]))
     ax.set_xlim(axrng)
@@ -90,7 +90,7 @@ def venn(ax, ns):
     ax.text(0.5+x2/2,0.5, f'B {ns[2]}', horizontalalignment='center',verticalalignment='center')
     ax.set_title("Number of callsigns in A only, A&B, B only")
 
-def make_chart(plt, fig, axs, decodes_A, decodes_B, session_info, show_best_snrs_only = False):
+def make_chart_dual(plt, fig, axs, decodes_A, decodes_B, session_info, show_best_snrs_only = False):
     decs_A = time_window_decodes(decodes_A, session_info[0], session_info[1])
     decs_B = time_window_decodes(decodes_B, session_info[0], session_info[1])
     calls_a= get_callsigns(decs_A)
