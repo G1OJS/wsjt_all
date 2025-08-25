@@ -1,6 +1,6 @@
 # wsjt_all [![PyPI Downloads](https://static.pepy.tech/badge/wsjt-all)](https://pepy.tech/projects/wsjt-all)
 **A Python command-line tool to analyse WSJT-X 'all.txt' files**
-<img align="right" height="150" src="[https://picsum.photos/100/100](https://github.com/user-attachments/assets/656d2b19-4ef9-41f8-9490-98db032a40c4)"> 
+<img align="right" height="150" src="https://github.com/user-attachments/assets/656d2b19-4ef9-41f8-9490-98db032a40c4"> 
 ## Purpose
 The point of this tool is to make analysing the WSJT-X 'all.txt' files for A/B comparisons easier, avoiding having to open them with text editors, and providing various plots and statistical summaries. This initial version has been developed specifically to analyse a *pair* of all.txt files, to compare *reception* performance achieved with two different and *simultaneous* station configurations. Later versions may do something useful with individual all.txt files and look at transmit data too.
 
