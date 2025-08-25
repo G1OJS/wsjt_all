@@ -69,7 +69,7 @@ def plot_live_single(allfilepath_A, session_guard_seconds, plot_window_seconds, 
             bm = sessions_A[-1][2]
             session_info=(ts,te,bm)
             axs[0].cla(), axs[1].cla()
-            make_chart_single(plt, fig, axs, decodes_A, session_info, show_best_snrs_only)
+            make_chart_single(plt, fig, axs, decodes_A, session_info)
             plt.pause(5)
 
 def plot_all_historic_single(allfilepath_A, session_guard_seconds):
