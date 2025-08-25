@@ -13,8 +13,8 @@
 .image-right {float:right; margin:10px; margin-right:0px;}
 .image-centre {align:center; margin:10px}
 
-a:link {color: #888;}
-a:visited {color: #888;}
+a:link {}
+a:visited {}
 
 h1 {margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xsm);}
 h2 {margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xsm);}
