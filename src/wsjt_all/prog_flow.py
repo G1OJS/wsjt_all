@@ -28,9 +28,9 @@ def check_config():
 def plot_all_historic_dual(allfilepath_A, allfilepath_B, session_guard_seconds, show_best_snrs_only):
     sessions_AB, decodes_A, decodes_B = load_overlapping_sessions(allfilepath_A, allfilepath_B, session_guard_seconds)
     init_colours()
-    print("Plotting sessions:")
-    for session_info in sessions_AB:
+    for i, session_info in enumerate(sessions_AB):
         session_info_string = get_session_info_string(session_info)
+        print(f"Plotting session {i} of {len(sessions_AB)}: {session_info_string}")
         fig, axs = plt.subplots(3,1, figsize=(7, 9), height_ratios = (0.1,1,1))
         make_chart_dual(plt, fig, axs, decodes_A, decodes_B, session_info, show_best_snrs_only)
         save_chart(plt, session_info_string+".png")
@@ -74,13 +74,14 @@ def plot_live_single(allfilepath_A, session_guard_seconds, plot_window_seconds, 
 
 def plot_all_historic_single(allfilepath_A, session_guard_seconds):
     decodes_A, sessions_A = load_sessions(allfilepath_A, session_guard_seconds)
-    print("Plotting sessions:")
-    for session_info in sessions_A:
-        session_info_string = get_session_info_string(session_info)
-        fig, axs = plt.subplots(2,1, figsize=(6, 9), height_ratios = (1,1))
-        make_chart_single(plt, fig, axs, decodes_A, session_info)
-        save_chart(plt, session_info_string+"_timeline.png")
-        plt.close()
+    for i, session_info in enumerate(sessions_A):
+        if(session_info[1] > session_info[0]):
+            session_info_string = get_session_info_string(session_info)
+            print(f"Plotting session {i} of {len(sessions_A)}: {session_info_string}")
+            fig, axs = plt.subplots(2,1, figsize=(6, 9), height_ratios = (1,1))
+            make_chart_single(plt, fig, axs, decodes_A, session_info)
+            save_chart(plt, session_info_string+"_timeline.png")
+            plt.close()
 
 
 def run(option):
