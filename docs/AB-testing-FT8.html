@@ -8,7 +8,7 @@
 <script data-goatcounter="https://g1ojs-github.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 
-<link rel="stylesheet" href="./appstyle.css" /> 
+<link rel="stylesheet" href="./corestyle.css" /> 
 <link rel="stylesheet" href="./pagestyle.css" /> 
 <style>
 
@@ -34,6 +34,7 @@
 		<h3> My station</h3> 
 		I live in a conservation area where no outside antennas are permitted, so everything I use is indoors. 
 		<img class = 'image-left' src = './chimney.png' height = 170></img>
+		Some of the antennas that I use are inside the decorative glass fibre chimney shown below!
 		Despite this, when I look at pskreporter,
 		I often have the longest distance reach, and largest coverage area, of stations operating from my country (England), on what I would call 
 		some of the most difficult bands; 80m, 160m, and 2m. And that's on both transmit and receive with a single Icom IC-7100 as the station transceiver. 
@@ -53,7 +54,7 @@
 		<ul>
 		<li>160, 80, 60, 40: Small transmitting loop 7.5m circumference made from 10mm copper tube</li>
 		<li>20, 15, 17, 10, 6m: fan dipole (I don't have 30m and 12m currently)</li>
-		<li>2m - my <a href = 'https://github.com/G1OJS/G1OJS_ContraSpiral'>G1OJS Contraspiral</a></li>
+		<li>2m - my <a href = 'https://github.com/G1OJS/G1OJS_ContraSpiral'>G1OJS Contraspiral (pictured right)</a></li>
 		</ul>
 		</p>
 		<p>
@@ -83,12 +84,10 @@
 		and remote squares/callsigns. There are some experimental views in there that look towards benchmarking too.
 
 		<h3>Wsjt-all</h3>
-		<p>
 		After playing with the experimental views in BandOpticon, I started thinking about using the data in the WSJT-X 'all.txt' file. On a few occaions I had tried 
 		setting up a second instance of WSJT-X to make decodes using the audio from a web SDR, and watching the waterfalls to compare noise levels. I also
 		tried copy and paste of the decodes from WSJT-X and went through them manually in notepad, matching up decodes to compare the reports. This provides some 
 		snapshot information, but is quite tedious to do repeatedly!
-		</p>
 		<p>
 		But the 'all.txt' file records every decode made on receive, and I started thinking about using that as the data source. One problem here is that these files
 		can become huge, and take an age to open in notepad (I eventually found Notepad++ which opens them much faster). So I started thinking about automating the process.
@@ -118,9 +117,7 @@
 		communication. So counting the number of times each callsign was received in each all.txt file probably carries a lot of weight.
 		</p>
 		<h4>Wsjt_all Plots (V1.3)</h4>
-		<p>
 		So, V1.3 produces plots like the one below:
-		</p>
 		<img class = 'image-left' src = './wsjt_all_screenshot.png' height = 400></img>
 		<p>
 		At the top of the image, the title identifies the 'joint' session frequency, mode, start time and duration. Immediately under the title is
@@ -143,10 +140,8 @@
 		
 		
 		<h2>Next steps</h2>
-		<p>
 		Wsjt_all is quite new (I only started working on it about a week ago) and at the outset I didn't really know if the data 
 		could be displayed in a meaningful and useful way, let alone how to present it with the best clarity and information content.
-		</p>
 		<p>
 		So one of the next things I'll do is experiment more with the plots. I might also add a 'data dump' feature for the chart data,
 		so that others can produce their own plots. I've started tracking ideas in the 'issues' section on GitHub, so have a look there too.

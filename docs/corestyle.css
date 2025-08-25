@@ -1,0 +1,84 @@
+
+:root {
+  --background-color: #f7f9fc;
+  --main-font-color: #333;
+  --text-dark: #333;
+  --main-paper-color: #eeeeee;
+  --light-paper-color: #ffffff;
+  --border-color: #ccc;
+  --background-color-shade: #f7f9fc;
+  --background-color-transmit: #ffebe6;
+  --background-color-receive: #e6ffe6;
+  
+	--color_1: rgba(4, 73, 115, 1);
+	--color_2: rgba(255,255,255,1);
+	--color_3: rgba(1, 144, 255, 1);
+	--color_4: rgba(88,43,186,1);
+	--color_5: rgba(255,189,88,1);
+	--color_6: rgba(237, 240, 243, 1);
+	--color_7: rgba(204, 51, 102, 1);
+	--color_8: rgba(100,100,100,1);
+  
+  --controls-color: #4da6ff;
+  font-family: "Roboto";
+  font-weight: 400;
+
+  --font-stack: system-ui, sans-serif;
+  --font-size-xsm: 0.6rem;
+  --font-size-sm: 0.8rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing: 1rem;
+  --spacing-lg: 2rem;
+
+  --border-radius: 8px;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  
+  --error-color: #e66;
+  --error-bg: #fee;
+}
+
+/* Apply border-box sizing to all elements */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background-color);
+  color: var(--main-font-color);
+  font-family: var(--font-stack);
+  margin: 0;
+  padding: var(--spacing);
+}
+
+/* Typography utility classes */
+.text-xsm   { font-size: var(--font-size-xsm); }
+.text-sm   { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg   { font-size: var(--font-size-lg); }
+
+.text-muted { color: #888; } /* for footer, subtle links */
+.text-dark  { color: var(--main-font-color); }
+
+.paper {
+  background: var(--light-paper-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing);
+  box-shadow: var(--box-shadow);
+  margin-bottom: var(--spacing);
+}
+
+.paper-primary {
+  background: var(--main-paper-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing);
+  margin-bottom: var(--spacing);
+  box-shadow: var(--box-shadow);
+}
+
+
+
