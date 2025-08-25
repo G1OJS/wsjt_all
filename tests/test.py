@@ -3,5 +3,5 @@ sys.path.append('../src')
 
 from wsjt_all import *
 
-wsjt_all()
+wsjt_all_live()
 

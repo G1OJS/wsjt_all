@@ -16,16 +16,15 @@ def make_chart_single(plt, fig, axs, decodes_A, session_info):
     session_info_string = get_session_info_string(session_info)
         
     print("Plotting number of reports")
-    timebins_mins = range(int((session_info[1] - session_info[0]) / 60) + 1)
-    numbs = [0]*len(timebins_mins)
+    timerange_mins = int((session_info[1] - session_info[0]) / 60)
+    numbs = [0] * timerange_mins
     call_rpts = {}
     for d in decodes_A:
         call_rpts.setdefault(d['oc'],[]).append({'t':d['t'], 'rp':d['rp']})
-        tmins = int((d['t'] - session_info[0])/60)
-        if(tmins in timebins_mins ):                # this shouldn't return false? Check prior windowing?
-            time_idx = timebins_mins.index(tmins)    
-            numbs[time_idx] += 1
-    xc = [0.5+x for x in timebins_mins] # marker at centre of minute bin
+        tmins = int((int(d['t']) - session_info[0])/60)
+        if(tmins>=0 and tmins < timerange_mins):
+            numbs[tmins] += 1
+    xc = [x + 0.5 for x in range(0,timerange_mins)] # marker at centre of minute bin
     axs[0].plot(xc, numbs, marker = 'o', alpha = 0.9, lw = 0.5)
 
     axs[0].set_title("Decode rate")
@@ -48,8 +47,9 @@ def make_chart_single(plt, fig, axs, decodes_A, session_info):
     axs[1].set_xlabel("Time (mins)")
     axs[1].set_ylabel("SNR per callsign")
 
-    axs[0].set_xlim(0, int((session_info[1]-session_info[0])/60)+1)
-    axs[1].set_xlim(0, int((session_info[1]-session_info[0])/60)+1)
+    axs[0].set_xlim(0, int((session_info[1]-session_info[0])/60)+.1)
+    axs[0].set_ylim(0)
+    axs[1].set_xlim(0, int((session_info[1]-session_info[0])/60)+.1)
 
     fig.suptitle(f"Session: {session_info_string}") 
     plt.tight_layout()
