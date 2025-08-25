@@ -3,21 +3,32 @@
 # wsjt_all [![PyPI Downloads](https://static.pepy.tech/badge/wsjt-all)](https://pepy.tech/projects/wsjt-all)
 **A Python command-line tool to analyse WSJT-X 'all.txt' files**
 ## Purpose
-The point of this tool is to make analysing the WSJT-X 'all.txt' files for A/B comparisons easier, avoiding having to open them with text editors, and providing various plots and statistical summaries. This initial version has been developed specifically to analyse a *pair* of all.txt files, to compare *reception* performance achieved with two different and *simultaneous* station configurations. Later versions may do something useful with individual all.txt files and look at transmit data too.
+The point of this tool is to make analysing the WSJT-X 'all.txt' files easier, avoiding having to open them with text editors, and providing various plots and statistical summaries. The 'all.txt' file produced by WSJT-X contains a wealth of information about your station's receive performance that is mostly untapped.
+
+From V1.4 it is possible to analyse a single 'all.txt' file to produce a timeline plot of decode rate and SNR reports, as well as analyse a *pair* of all.txt files to compare performance achieved with two different and *simultaneous* station configurations. 
 
 ## More detail ...
-For more detail on the motivation behind this project, its development and outputs, have a look at this page:
+For more detail on the motivation behind this project which *started* with A/B testing with a pair of all.txt files, have a look at this page:
 
 [AB Testing with FT8](https://g1ojs.github.io/wsjt_all/docs/AB-testing-FT8.html).
 
 ## Features
+1) For a single 'all.txt' file:
+* Automatically parse an ALL.txt file and detect sessions of activity 
+* Automatically produce the following plots for each session
+    * decode rate (decodes / minute) across the session
+    * SNR for each report for each callsign across the session
+   
+2) For a pair of 'all.txt' files:
 * Automatically parse a pair (A,B) of ALL.txt files and detect sessions of activity that are common to both files
 * Automatically produce the following plots for each session
     * number of callsigns decoded in A and B
     * number of decodes at A and B for each callsign
     * SNRs in A and B for simultaneous decodes
+ 
+For both use cases:
  * Run as a batch process to process all historic sessions
- * Run 'live' to monitor a current & ongoing A/B test
+ * Run 'live' to monitor a current & ongoing test
  * (Limited) plotting options
 
 ## Motivation
@@ -33,6 +44,8 @@ The questions I had in my mind, that I wrote this to try to answer, include:
  - What's more meaningful, SNR or number of times a callsign is received over a time window?
 
 ## Outputs
+[**Note** I have just uploaded V1.4 with the addition of single all.txt file processing, and need to update the section below a little]
+
 After you run the program, you will find a 'plots' folder in which you will find plots like this:
 
 <img width="700" height="900" alt="3 573MHz-FT8 2025-08-09 2233 for 29 75 mins" src="https://github.com/user-attachments/assets/656d2b19-4ef9-41f8-9490-98db032a40c4" />
@@ -50,16 +63,15 @@ pip install wsjt_all
 ```
 
 ## Usage
-There are currently two simple command line commands to use:
-```
-wsjt_all_ab
-```
-This runs the comparison described above, automatically finding 'sessions' (defined time ranges covering reception of a single mode on a single band) and then automatically finding sessions that are common to both all files. A plot is produced and saved in the 'plots' folder for every common session.
+There are currently four simple command line commands to use:
 
-```
-wsjt_all_ab_live
-```
-This analyses the very last session in the all files, and plots a live-updating plot covering the current time to 5 minutes ago. It will be blank if you are not currently running two instances of WSJT-X as described above.
+**wsjt_all** parses a single all file, automatically finding 'sessions' (defined time ranges covering reception of a single mode on a single band) and producing a timeline plot of decode rate and SNR.
+
+**wsjt_all_live** analyses the very last session in the all files, and plots a live-updating plot covering the current time to 5 minutes ago. It will be blank if you are not currently running WSJT-X.
+
+**wsjt_all_ab** runs the A/B comparison described above, automatically finding 'sessions' (defined time ranges covering reception of a single mode on a single band) and then automatically finding sessions that are common to both all files. A plot is produced and saved in the 'plots' folder for every common session.
+
+**wsjt_all_ab_live** analyses the very last session in the all files, and plots a live-updating plot covering the current time to 5 minutes ago. It will be blank if you are not currently running two instances of WSJT-X as described above.
 
 Note - I keep my all.txt files fairly small by archiving sections into other files, so if you have a single all file covering years of operation, you may have to edit it or wait quite a while for the plots!
 
@@ -73,6 +85,6 @@ allB = C:\Users\drala\AppData\Local\WSJT-X - AltAB\all.txt
 [settings]
 session_guard_seconds = 300
 live_plot_window_seconds = 300
-show_best_snrs_only = N
+show_best_snrs_only = N                           <- controls the behaviour of the lower SNR plot in the A/B analysis case
 ```
 
