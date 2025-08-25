@@ -27,6 +27,8 @@ Homepage = "https://github.com/G1OJS/wsjt_all"
 Issues = "https://github.com/G1OJS/wsjt_all/issues"
 
 [project.scripts]
+wsjt_all = "wsjt_all:wsjt_all"
+wsjt_all_live = "wsjt_all:wsjt_all_live"
 wsjt_all_ab = "wsjt_all:wsjt_all_ab"
 wsjt_all_ab_live = "wsjt_all:wsjt_all_ab_live"
 

@@ -90,7 +90,7 @@ def venn(ax, ns):
     ax.text(0.5+x2/2,0.5, f'B {ns[2]}', horizontalalignment='center',verticalalignment='center')
     ax.set_title("Number of callsigns in A only, A&B, B only")
 
-def make_chart(plt, fig, axs, decodes_A, decodes_B, session_info, show_best_snrs_only = False):
+def make_chart_dual(plt, fig, axs, decodes_A, decodes_B, session_info, show_best_snrs_only = False):
     decs_A = time_window_decodes(decodes_A, session_info[0], session_info[1])
     decs_B = time_window_decodes(decodes_B, session_info[0], session_info[1])
     calls_a= get_callsigns(decs_A)
