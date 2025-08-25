@@ -1,4 +1,4 @@
-<img align="right" height="450" src="https://github.com/user-attachments/assets/656d2b19-4ef9-41f8-9490-98db032a40c4"/> 
+<img align="right" height="350" src="https://github.com/user-attachments/assets/656d2b19-4ef9-41f8-9490-98db032a40c4"/> 
 
 # wsjt_all [![PyPI Downloads](https://static.pepy.tech/badge/wsjt-all)](https://pepy.tech/projects/wsjt-all)
 **A Python command-line tool to analyse WSJT-X 'all.txt' files**
