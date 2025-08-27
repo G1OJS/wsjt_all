@@ -13,9 +13,10 @@ def make_chart_single(plt, fig, axs, decodes_A, session_info):
     numbs = [0] * timerange_mins
     call_rpts = {}
     for d in decodes_A:
-        call_rpts.setdefault(d['oc'],[]).append({'t':d['t'], 'rp':d['rp']})
-        tmins = int((int(d['t']) - session_info[0])/60)
-        if(tmins>=0 and tmins < timerange_mins):
+        t = d['t'] - session_info[0]
+        if(t>=0 and t < 60*timerange_mins):
+            call_rpts.setdefault(d['oc'],[]).append({'t':t, 'rp':d['rp']})
+            tmins = int(t/60)
             numbs[tmins] += 1
     xc = [x + 0.5 for x in range(0,timerange_mins)] # marker at centre of minute bin
     axs[0].plot(xc, numbs, marker = 'o', alpha = 0.9, lw = 0.5)
@@ -30,8 +31,8 @@ def make_chart_single(plt, fig, axs, decodes_A, session_info):
         xc, yc = [], []
         cols.append(hash_color(c, plt.cm.tab20))
         for rpt in call_rpts[c]:
-            if(rpt['t']>= session_info[0] and rpt['t']<= session_info[1]):
-                xc.append((rpt['t'] - session_info[0]) / 60)
+            if(rpt['t']>= 0 and rpt['t']<= 60*timerange_mins):
+                xc.append(rpt['t'] / 60)
                 yc.append(rpt['rp'])
         axs[1].plot(xc, yc, label = c, marker ="o", color = cols[i], alpha = 0.9, lw = 0.2)
 

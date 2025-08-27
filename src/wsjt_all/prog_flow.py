@@ -1,6 +1,6 @@
 import configparser
 import os
-from .plotter_dual import plot_all_historic_dual, make_chart_dual
+from .plotter_dual import plot_all_historic_dual, plot_live_dual
 from .plotter_single import plot_all_historic_single, plot_live_single
 
 def check_config():
