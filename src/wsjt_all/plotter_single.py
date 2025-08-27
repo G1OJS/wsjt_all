@@ -1,15 +1,8 @@
 import matplotlib.pyplot as plt
-import random
 import os
-from wsjt_all.load_sessions import load_sessions, time_window_decodes,get_session_info_string
-global colourseries
+from .load_sessions import load_sessions, load_overlapping_sessions, get_session_info_string, time_window_decodes
+from .utils import *
 import datetime
-import mplcursors
-import hashlib
-
-def hash_color(callsign, cmap=plt.cm.tab20):
-    h = int(hashlib.sha1(callsign.encode()).hexdigest(), 16)
-    return cmap(h % cmap.N)
 
 def make_chart_single(plt, fig, axs, decodes_A, session_info):
     decs_A = time_window_decodes(decodes_A, session_info[0], session_info[1])
@@ -31,12 +24,11 @@ def make_chart_single(plt, fig, axs, decodes_A, session_info):
     axs[0].set_xlabel("Time (mins)")
     axs[0].set_ylabel("Number of decodes per minute")
 
-
     print("Plotting snr of reports")
     cols = []
     for i, c in enumerate(call_rpts):
         xc, yc = [], []
-        cols.append(hash_color(c))
+        cols.append(hash_color(c, plt.cm.tab20))
         for rpt in call_rpts[c]:
             if(rpt['t']>= session_info[0] and rpt['t']<= session_info[1]):
                 xc.append((rpt['t'] - session_info[0]) / 60)
@@ -54,4 +46,29 @@ def make_chart_single(plt, fig, axs, decodes_A, session_info):
     fig.suptitle(f"Session: {session_info_string}") 
     plt.tight_layout()
 
+def plot_live_single(allfilepath_A, session_guard_seconds, plot_window_seconds, show_best_snrs_only):
+    fig, axs = plt.subplots(2,1, figsize=(6, 9), height_ratios = (1,1))
+    plt.ion()
+    print("Waiting for live session data")
+    while(True):
+        t_recent = datetime.datetime.now().timestamp() - plot_window_seconds * 3 # allow for delay in receiving live spots
+        decodes_A, sessions_A = load_sessions(allfilepath_A, session_guard_seconds, skip_all_before = t_recent)
+        if(len(sessions_A)>0):
+            te = sessions_A[-1][1]
+            ts = te - plot_window_seconds
+            bm = sessions_A[-1][2]
+            session_info=(ts,te,bm)
+            axs[0].cla(), axs[1].cla()
+            make_chart_single(plt, fig, axs, decodes_A, session_info)
+            plt.pause(5)
 
+def plot_all_historic_single(allfilepath_A, session_guard_seconds):
+    decodes_A, sessions_A = load_sessions(allfilepath_A, session_guard_seconds)
+    for i, session_info in enumerate(sessions_A):
+        if(session_info[1] > session_info[0] and len(sessions_A)>2):
+            session_info_string = get_session_info_string(session_info)
+            print(f"Plotting session {i} of {len(sessions_A)}: {session_info_string}")
+            fig, axs = plt.subplots(2,1, figsize=(6, 9), height_ratios = (1,1))
+            make_chart_single(plt, fig, axs, decodes_A, session_info)
+            save_chart(plt, session_info_string+"_timeline.png")
+            plt.close()
