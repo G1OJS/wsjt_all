@@ -68,7 +68,7 @@ def plot_all_historic_single(allfilepath_A, session_guard_seconds):
     for i, session_info in enumerate(sessions_A):
         if(session_info[1] > session_info[0] and len(sessions_A)>2):
             session_info_string = get_session_info_string(session_info)
-            print(f"Plotting session {i} of {len(sessions_A)}: {session_info_string}")
+            print(f"Plotting session {i+1} of {len(sessions_A)}: {session_info_string}")
             fig, axs = plt.subplots(2,1, figsize=(6, 9), height_ratios = (1,1))
             make_chart_single(plt, fig, axs, decodes_A, session_info)
             save_chart(plt, session_info_string+"_timeline.png")
