@@ -83,16 +83,6 @@ def make_chart_dual(plt, fig, axs, decodes_A, decodes_B, session_info, show_best
     fig.suptitle(f"Session: {session_info_string}") 
     plt.tight_layout()
        
-def plot_all_historic_dual(allfilepath_A, allfilepath_B, session_guard_seconds, show_best_snrs_only):
-    sessions_AB, decodes_A, decodes_B = load_overlapping_sessions(allfilepath_A, allfilepath_B, session_guard_seconds)
-    for i, session_info in enumerate(sessions_AB):
-        session_info_string = get_session_info_string(session_info)
-        print(f"Plotting session {i+1} of {len(sessions_AB)}: {session_info_string}")
-        fig, axs = plt.subplots(3,1, figsize=(7, 9), height_ratios = (0.1,1,1))
-        make_chart_dual(plt, fig, axs, decodes_A, decodes_B, session_info, show_best_snrs_only)
-        save_chart(plt, session_info_string+".png")
-        plt.close()
-
 def plot_live_dual(allfilepath_A, allfilepath_B, session_guard_seconds, plot_window_seconds, show_best_snrs_only):
     fig, axs = plt.subplots(3,1, figsize=(7, 9), height_ratios = (0.1,1,1))
     plt.ion()
@@ -111,3 +101,13 @@ def plot_live_dual(allfilepath_A, allfilepath_B, session_guard_seconds, plot_win
             axs[0].cla(), axs[1].cla(), axs[2].cla()
             make_chart_dual(plt, fig, axs, decodes_A, decodes_B, session_info, show_best_snrs_only)
             plt.pause(5)
+
+def plot_all_historic_dual(allfilepath_A, allfilepath_B, subfolder, session_guard_seconds, show_best_snrs_only, use_bandmode_folders):
+    sessions_AB, decodes_A, decodes_B = load_overlapping_sessions(allfilepath_A, allfilepath_B, session_guard_seconds)
+    for i, session_info in enumerate(sessions_AB):
+        session_info_string = get_session_info_string(session_info)
+        print(f"Plotting session {i+1} of {len(sessions_AB)}: {session_info_string}")
+        fig, axs = plt.subplots(3,1, figsize=(7, 9), height_ratios = (0.1,1,1))
+        make_chart_dual(plt, fig, axs, decodes_A, decodes_B, session_info, show_best_snrs_only)
+        save_chart(plt, session_info_string+".png", subfolder, session_info, use_bandmode_folders)
+        plt.close()

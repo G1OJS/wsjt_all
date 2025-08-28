@@ -47,7 +47,7 @@ def make_chart_single(plt, fig, axs, decodes_A, session_info):
     fig.suptitle(f"Session: {session_info_string}") 
     plt.tight_layout()
 
-def plot_live_single(allfilepath_A, session_guard_seconds, plot_window_seconds, show_best_snrs_only):
+def plot_live_single(allfilepath_A, session_guard_seconds, plot_window_seconds):
     fig, axs = plt.subplots(2,1, figsize=(6, 9), height_ratios = (1,1))
     plt.ion()
     print("Waiting for live session data")
@@ -63,7 +63,7 @@ def plot_live_single(allfilepath_A, session_guard_seconds, plot_window_seconds, 
             make_chart_single(plt, fig, axs, decodes_A, session_info)
             plt.pause(5)
 
-def plot_all_historic_single(allfilepath_A, session_guard_seconds):
+def plot_all_historic_single(allfilepath_A, subfolder, session_guard_seconds, use_bandmode_folders):
     decodes_A, sessions_A = load_sessions(allfilepath_A, session_guard_seconds)
     for i, session_info in enumerate(sessions_A):
         if(session_info[1] > session_info[0] and len(sessions_A)>2):
@@ -71,5 +71,5 @@ def plot_all_historic_single(allfilepath_A, session_guard_seconds):
             print(f"Plotting session {i+1} of {len(sessions_A)}: {session_info_string}")
             fig, axs = plt.subplots(2,1, figsize=(6, 9), height_ratios = (1,1))
             make_chart_single(plt, fig, axs, decodes_A, session_info)
-            save_chart(plt, session_info_string+"_timeline.png")
+            save_chart(plt, session_info_string+".png", subfolder, session_info, use_bandmode_folders)
             plt.close()

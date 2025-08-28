@@ -23,6 +23,7 @@ def list_sessions(sessions):
         print(f"{i+1} {get_session_info_string(s)}")
         
 def load_sessions(allfilepath, session_split_guard_secs, skip_all_before = 0):
+    print(f"Reading {allfilepath}")
     decodes =[]
     for line in open(allfilepath):
         if(allstr_to_epoch(line) > skip_all_before):

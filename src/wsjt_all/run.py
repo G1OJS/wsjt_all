@@ -16,6 +16,7 @@ def check_config():
             txt += "\nsession_guard_seconds = 300"
             txt += "\nlive_plot_window_seconds = 300"
             txt += "\nshow_best_snrs_only = N"
+            txt += "\nuse_bandmode_folders = Y"
             txt += "\n"
             with open("wsjt_all.ini","w") as f:
               f.write(txt)
@@ -30,14 +31,28 @@ def run(option):
         session_guard_seconds = int(config.get("settings","session_guard_seconds"))
         live_plot_window_seconds = int(config.get("settings","live_plot_window_seconds"))
         show_best_snrs_only = (config.get("settings","show_best_snrs_only") == "Y")
+        use_bandmode_folders = (config.get("settings","use_bandmode_folders") == "Y")
+
         if(option=="hist_single"):
-            plot_all_historic_single(allfilepath_A, session_guard_seconds)
-        if(option=="hist_ab"):
-            plot_all_historic_dual(allfilepath_A, allfilepath_B, session_guard_seconds, show_best_snrs_only)
-        if(option=="live_ab"):
-            plot_live_dual(allfilepath_A, allfilepath_B, session_guard_seconds, live_plot_window_seconds, show_best_snrs_only)
+            plot_all_historic_single(allfilepath_A, "A/", session_guard_seconds, use_bandmode_folders)
+            if(allfilepath_A != allfilepath_B):
+                plot_all_historic_single(allfilepath_B, "B/", session_guard_seconds, use_bandmode_folders)
         if(option=="live_single"):
-            plot_live_single(allfilepath_A,session_guard_seconds, live_plot_window_seconds,False)
+            plot_live_single(allfilepath_A,session_guard_seconds, live_plot_window_seconds)
+
+        if(option=="hist_ab"):
+            allfilepath_B = config.get("inputs","allB")    
+            if(allfilepath_A == allfilepath_B):
+                print("AB analysis requires two different all.txt files")
+            else:
+                plot_all_historic_dual(allfilepath_A, allfilepath_B, "AB/", session_guard_seconds, show_best_snrs_only, use_bandmode_folders)
+        if(option=="live_ab"):
+            allfilepath_B = config.get("inputs","allB")    
+            if(allfilepath_A == allfilepath_B):
+                print("AB analysis requires two different all.txt files")
+            else:
+                plot_live_dual(allfilepath_A, allfilepath_B, session_guard_seconds, live_plot_window_seconds, show_best_snrs_only)
+            
 
 def wsjt_all():
     run("hist_single")

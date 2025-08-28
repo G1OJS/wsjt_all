@@ -79,12 +79,13 @@ Note - I keep my all.txt files fairly small by archiving sections into other fil
 The software uses a simple wsjt_all.ini file to locate the all.txt files and set a couple of options. If none exists, the software can create a template for you but you still need to edit it to specify the paths to the all files. The wsjt_all.ini file looks like this:
 ```
 [inputs]
-allA = C:\Users\drala\AppData\Local\WSJT-X\all.txt               <- this file is used for the 'single all file' case 
+allA = C:\Users\drala\AppData\Local\WSJT-X\all.txt             
 allB = C:\Users\drala\AppData\Local\WSJT-X - AltAB\all.txt
 
 [settings]
 session_guard_seconds = 300
 live_plot_window_seconds = 300
-show_best_snrs_only = N                           <- controls the behaviour of the lower SNR plot in the A/B analysis case
+show_best_snrs_only = N           
+use_bandmode_folders = Y
 ```
 
