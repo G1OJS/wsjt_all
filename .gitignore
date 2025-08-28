@@ -3,10 +3,7 @@
 *.egg-info/
 dist/
 build/
-test/
-
-#outputs
-*.png
+tests\plots\*.png
 
 # Python
 __pycache__/
