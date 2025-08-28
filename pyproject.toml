@@ -1,6 +1,6 @@
 [project]
 name = "wsjt_all"
-version = "1.6.0"
+version = "1.7.0"
 license = "MIT"
 license-files = ["LICENSE"]
 

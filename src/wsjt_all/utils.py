@@ -16,4 +16,4 @@ def save_chart(plt, plotfile, subfolder, session_info, use_bandmode_folders):
 
 def dither(vals, amplitude_factor):
     amplitude = amplitude_factor * (max(vals) - min(vals))
-    return [v + amplitude*random.random()  for v in vals]
+    return [v + amplitude*random.random() if (v>0) else 0 for v in vals]
