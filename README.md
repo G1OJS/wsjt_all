@@ -7,6 +7,14 @@ The point of this tool is to make analysing the WSJT-X 'all.txt' files easier, a
 
 From V1.4 it is possible to analyse a single 'all.txt' file to produce a timeline plot of decode rate and SNR reports, as well as analyse a *pair* of all.txt files to compare performance achieved with two different and *simultaneous* station configurations. 
 
+**Example use cases** include:
+- Benchmarking your receive capability against a Web SDR
+- Doing local A/B testing with two configurations, using a Web SDR as a stable reference (compare A vs Web SDR with B vs Web SDR at two different times, when you can't do A and B simultaneously)
+- Look for patterns in decode rate over time
+- Check if patterns apply to all decodes or just groups
+- Make a change where you have to leave your screen, come back and see what happened to the decode rate (good for QRM hunting / elimination!)
+- Just get a quick visual look at what's in your all.txt file! 
+
 ## More detail ...
 For more detail on the motivation behind this project which *started* with A/B testing with a pair of all.txt files, have a look at this page:
 
