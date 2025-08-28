@@ -5,7 +5,7 @@
 ## Purpose
 The point of this tool is to make analysing the WSJT-X 'all.txt' files easier, avoiding having to open them with text editors, and providing various plots and statistical summaries. The 'all.txt' file produced by WSJT-X contains a wealth of information about your station's receive performance that is mostly untapped.
 
-From V1.4 it is possible to analyse a single 'all.txt' file to produce a timeline plot of decode rate and SNR reports, as well as analyse a *pair* of all.txt files to compare performance achieved with two different and *simultaneous* station configurations. 
+The software works with pairs of all.txt files (to compare overlapping sessions) as well as individual ones.
 
 **Example use cases** include:
 - Benchmarking your receive capability against a Web SDR
