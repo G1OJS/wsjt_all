@@ -1,8 +1,12 @@
 import datetime
 
 def allstr_to_epoch(s):
-    dt = datetime.datetime(int("20"+s[0:2]), int(s[2:4]), int(s[4:6]),
+    try:
+        dt = datetime.datetime(int("20"+s[0:2]), int(s[2:4]), int(s[4:6]),
                             int(s[7:9]), int(s[9:11]), int(s[11:13]))
+    except:
+        print(f"Error converting timestamp in '{s}'")
+        return 0
     return (dt - datetime.datetime(1970, 1, 1)).total_seconds()
 
 def allfile_line_to_dict(line):
